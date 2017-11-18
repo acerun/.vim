@@ -2,6 +2,9 @@
 "Maintainer:
 "    Run
 "
+"Version:
+"    Base pure version
+"
 "Sections:
 "    -> General
 "    -> VIM user interface
@@ -9,14 +12,14 @@
 "    -> Files and backups
 "    -> Text, tab and indent related
 "    -> Flod method
-"    -> Visual mode related
 "    -> Status line
-"    -> Moving around, tabs and buffers
 "    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
+"       -> Moving windows, tabs and buffers
+"       -> CommandLine related
+"       -> Spell checking
+"       -> Misc
 "    -> Helper functions
+"    -> Source others
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -34,24 +37,12 @@ set mouse=a "Set mouse enable
 filetype plugin on
 filetype indent on
 
-"With a map leader it's possible to do extra key combinations
-"like <leader>w saves the current file
-let mapleader = "\<Space>"
-let g:mapleader = "\<Space>"
-
-"Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+"Visual mode pressing * or # searches for the current selection
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 "Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-"Fast saving
-nmap <leader>w :w!<cr>
-
-":W sudo saves the file
-"(useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
-
 
 
 
@@ -218,17 +209,65 @@ set statusline+=%y                                "file type
 set statusline+=\ \                               "leave 2 space
 
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-"Visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Editing mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"With a map leader it's possible to do extra key combinations
+"like <leader>w saves the current file
+let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
+" ==> Moving windows, tabs and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===> windows
+"Zoom / Restore window
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <Leader>z :ZoomToggle<CR>
+
+"Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+"===> tabs
+map <leader>tn :tabedit<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabm<cr>
+map <leader>to :tabonly<cr>
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+"===> buffers
+" Close the current buffer
+map <leader>bc :Bclose<cr>:tabclose<cr>gT
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> CommandLine related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+cnoremap <C-j> <t_kd>
+cnoremap <C-k> <t_ku>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell!<cr>
@@ -241,8 +280,19 @@ map <leader>s? z=
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc
+" ==> Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
+
+"Fast saving
+nmap <leader>w :w!<cr>
+
+":W sudo saves the file
+"(useful for handling the permission-denied error)
+command W w !sudo tee % > /dev/null
+
+
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
@@ -319,4 +369,21 @@ fun! CleanExtraSpaces()
     call setpos('.', save_cursor)
     call setreg('/', old_query)
 endfun
+
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Source others
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
