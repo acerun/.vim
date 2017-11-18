@@ -2,9 +2,6 @@
 "Maintainer:
 "    Run
 "
-"Version:
-"    Base pure version
-"
 "Sections:
 "    -> General
 "    -> VIM user interface
@@ -15,8 +12,9 @@
 "    -> Status line
 "    -> Editing mappings
 "       -> Moving windows, tabs and buffers
-"       -> CommandLine related
+"       -> Command mode related
 "       -> Spell checking
+"       -> Parenthesis/bracket
 "       -> Misc
 "    -> Helper functions
 "    -> Source others
@@ -259,7 +257,7 @@ map <leader>bc :Bclose<cr>:tabclose<cr>gT
 map <leader>ba :bufdo bd<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ==> CommandLine related
+" ==> Command mode related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
@@ -278,6 +276,22 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> Parenthesis/bracket
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap ( <esc>`>i)<esc>`<i(<esc>
+vnoremap [ <esc>`>i]<esc>`<i[<esc>
+vnoremap { <esc>`>i}<esc>`<i{<esc>
+vnoremap " <esc>`>i"<esc>`<i"<esc>
+vnoremap ' <esc>`>i'<esc>`<i'<esc>
+
+" Map auto complete of (, ", ', [
+inoremap $1 ()<esc>i
+inoremap $2 []<esc>i
+inoremap $3 {}<esc>i
+inoremap $4 {<esc>o}<esc>O
+inoremap $q ''<esc>i
+inoremap $e ""<esc>i
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ==> Misc
