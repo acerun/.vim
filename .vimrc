@@ -28,7 +28,7 @@ set nocompatible
 set history=1000 "Lines of history VIM has to remember
 set autoread "Auto read when a file is changed from the outside
 set bsdir=buffer
-set autochdir "Auto change to the dir of current file
+"set autochdir "Auto change to the dir of current file
 set mouse=a "Set mouse enable
 
 "Enable filetype plugins
@@ -163,7 +163,7 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set foldmethod=indent  "The kind of folding used for the current window
 set foldlevel=99
-
+autocmd FileType c,cpp  setl fdm=syntax | setl fen
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -301,6 +301,9 @@ inoremap $e ""<esc>i
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ==> Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"change CWD with path of current file
+nnoremap <silent> <leader>. :cd %:p:h<CR>
+
 "Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
 

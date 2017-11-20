@@ -21,13 +21,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Download vim-plug: VIM Plugin Manager
 "https://github.com/junegunn/vim-plug
-let isFirstInstall=0
 let vimplug_path=expand('~/.vim/autoload/plug.vim')
-if !filereadable(vimplug_path)
+if empty(glob(vimplug_path))
     echo "Install vim-plug.."
     echo ""
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    let isFirstInstall=1
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -55,7 +54,7 @@ Plug 'tpope/vim-fugitive'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF or CtrlP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let isFZF=0
+let isFZF=1
 if isFZF==1
     "For gWindows, download the fzf.exe:
     "https://github.com/junegunn/fzf-bin/releases
@@ -74,12 +73,11 @@ if isFZF==1
     let g:fzf_tags_command = 'ctags -R'
 
     :let $FZF_DEFAULT_COMMAND  = 'find . -type f ! -path "./node_modules/*" ! -path "./bower_components/*" ! -path "./.git/*" ! -path "*.swp"'
-    map <C-P> :tabnew<CR>:FZF<CR>
+    map  <C-P> :FZF<CR>
     nmap <C-B> :Buffer<CR>
-    nmap <C-L> :Lines<CR>
     nmap <C-H> :History:<CR>
     nmap <C-T> :Tags<CR>
-    nmap <C-M> :FZFMru<CR>
+    nmap <C-F> :FZFMru<CR>
     " Mapping selecting mappings
     nmap <leader><tab> <plug>(fzf-maps-n)
     xmap <leader><tab> <plug>(fzf-maps-x)
@@ -94,6 +92,7 @@ if isFZF==1
     " Advanced customization using autoload functions
     inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 else
+    "Use CtrlP
     Plug 'kien/ctrlp.vim'
     if executable('ag')
         set grepprg=ag\ --nogroup\ --nocolor
@@ -103,8 +102,10 @@ else
     endif
     "let g:ctrlp_map = '<Leader>p'
     "let g:ctrlp_cmd = 'CtrlP'
-    nmap <C-M> :CtrlPMRUFiles<CR>
+
+    nmap <C-F> :CtrlPMRUFiles<CR>
     nmap <C-B> :CtrlPBuffer<CR>
+    nmap <C-T> :CtrlPTag<CR>
 
     let g:ctrlp_custom_ignore = {
                 \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
@@ -158,18 +159,10 @@ let g:tagbar_type_markdown = {
     \ 'sort': 0,
 \ }
 
-
 Plug 'vim-scripts/Mark--Karkat'
-
+Plug 'kshenoy/vim-signature'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => END  -Install the plugins if first run
+" => END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-"Install the plugins if first run
-if isFirstInstall == 1
-    echo "Install vim plugins, please ignore key map error message"
-    echo ""
-    :PlugInstall
-endif
 call plug#end()
