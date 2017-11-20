@@ -10,7 +10,7 @@
 "    -> Nerdtree
 "    -> Tagbar
 "    -> Git
-"    -> FZF
+"    -> FZF or CtrlP
 "    -> YouCompleteMe
 "    -> Markdown
 "    -> END
@@ -53,45 +53,75 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => FZF
+" => FZF or CtrlP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"For Windows, download the fzf.exe:
-"https://github.com/junegunn/fzf-bin/releases
+let isFZF=0
+if isFZF==1
+    "For gWindows, download the fzf.exe:
+    "https://github.com/junegunn/fzf-bin/releases
 
-"Need install ag:https://github.com/ggreer/the_silver_searcher
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'pbogut/fzf-mru.vim'
-" [Buffers] Jump to the existing window if possible
-let g:fzf_buffers_jump = 1
+    "Need install ag:https://github.com/ggreer/the_silver_searcher
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'pbogut/fzf-mru.vim'
+    " [Buffers] Jump to the existing window if possible
+    let g:fzf_buffers_jump = 1
 
-" [[B]Commits] Customize the options used by 'git log':
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+    " [[B]Commits] Customize the options used by 'git log':
+    let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
-" [Tags] Command to generate tags file
-let g:fzf_tags_command = 'ctags -R'
+    " [Tags] Command to generate tags file
+    let g:fzf_tags_command = 'ctags -R'
 
-:let $FZF_DEFAULT_COMMAND  = 'find . -type f ! -path "./node_modules/*" ! -path "./bower_components/*" ! -path "./.git/*" ! -path "*.swp"'
-map <C-P> :tabnew<CR>:FZF<CR>
-nmap <C-B> :Buffer<CR>
-nmap <C-L> :Lines<CR>
-nmap <C-H> :History:<CR>
-nmap <C-T> :Tags<CR>
-nmap <leader>r :FZFMru<CR>
-" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
+    :let $FZF_DEFAULT_COMMAND  = 'find . -type f ! -path "./node_modules/*" ! -path "./bower_components/*" ! -path "./.git/*" ! -path "*.swp"'
+    map <C-P> :tabnew<CR>:FZF<CR>
+    nmap <C-B> :Buffer<CR>
+    nmap <C-L> :Lines<CR>
+    nmap <C-H> :History:<CR>
+    nmap <C-T> :Tags<CR>
+    nmap <C-M> :FZFMru<CR>
+    " Mapping selecting mappings
+    nmap <leader><tab> <plug>(fzf-maps-n)
+    xmap <leader><tab> <plug>(fzf-maps-x)
+    omap <leader><tab> <plug>(fzf-maps-o)
 
-" Insert mode completion
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
+    " Insert mode completion
+    imap <c-x><c-k> <plug>(fzf-complete-word)
+    imap <c-x><c-f> <plug>(fzf-complete-path)
+    imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+    imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" Advanced customization using autoload functions
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+    " Advanced customization using autoload functions
+    inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+else
+    Plug 'kien/ctrlp.vim'
+    if executable('ag')
+        set grepprg=ag\ --nogroup\ --nocolor
+        "let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+        let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+        let g:ctrlp_use_caching = 0
+    endif
+    "let g:ctrlp_map = '<Leader>p'
+    "let g:ctrlp_cmd = 'CtrlP'
+    nmap <C-M> :CtrlPMRUFiles<CR>
+    nmap <C-B> :CtrlPBuffer<CR>
 
+    let g:ctrlp_custom_ignore = {
+                \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+                \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+                \ }
+    let g:ctrlp_working_path_mode = 0
+    let g:ctrlp_match_window_bottom = 1
+
+    let g:ctrlp_max_height = 15
+    let g:ctrlp_match_window_reversed = 0
+
+    let g:ctrlp_mruf_max = 500
+    let g:ctrlp_follow_symlinks = 1
+
+    let g:ctrlp_by_filename = 1
+    let g:ctrlp_regexp = 0
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => YouCompleteMe: a code-completion engine for Vim
@@ -102,6 +132,7 @@ if has("win32")
 else
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 endif
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Markdown
@@ -126,6 +157,10 @@ let g:tagbar_type_markdown = {
     \ },
     \ 'sort': 0,
 \ }
+
+
+Plug 'vim-scripts/Mark--Karkat'
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => END  -Install the plugins if first run
