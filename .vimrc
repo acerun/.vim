@@ -8,7 +8,7 @@
 "    -> Colors and Fonts
 "    -> Files and backups
 "    -> Text, tab and indent related
-"    -> Flod method
+"    -> Fold method
 "    -> Status line
 "    -> Editing mappings
 "       -> Moving windows, tabs and buffers
@@ -120,6 +120,11 @@ if has("gui_running")
     set guioptions-=e
     set t_Co=256
     set guitablabel=%M\ %t
+    if has('gui_win32')
+        set guifont=Consolas:h11
+    else
+        set guifont=DejaVu\ Sans\ Mono\ 10
+    endif
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language

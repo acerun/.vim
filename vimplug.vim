@@ -55,6 +55,9 @@ Plug 'tpope/vim-fugitive'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"For Windows, download the fzf.exe:
+"https://github.com/junegunn/fzf-bin/releases
+
 "Need install ag:https://github.com/ggreer/the_silver_searcher
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -93,7 +96,12 @@ inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => YouCompleteMe: a code-completion engine for Vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+if has("win32")
+    Plug 'shougo/neocomplete.vim'
+    source ~/.vim/neocomplete_config.vim
+else
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Markdown
