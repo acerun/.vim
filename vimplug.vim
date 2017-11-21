@@ -72,7 +72,10 @@ if isFZF==1
     " [Tags] Command to generate tags file
     let g:fzf_tags_command = 'ctags -R'
 
-    :let $FZF_DEFAULT_COMMAND  = 'find . -type f ! -path "./node_modules/*" ! -path "./bower_components/*" ! -path "./.git/*" ! -path "*.swp"'
+    "let $FZF_DEFAULT_COMMAND  = 'find . -type f ! -path "./node_modules/*" ! -path "./bower_components/*" ! -path "./.git/*" ! -path "*.swp"'
+    let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --nocolor --hidden --ignore=".git" --ignore="*.pyc"'
+    let $FZF_FIND_FILE_COMMAND = "$FZF_DEFAULT_COMMAND"
+
     map  <C-P> :FZF<CR>
     nmap <C-B> :Buffer<CR>
     nmap <C-H> :History:<CR>
