@@ -79,21 +79,12 @@ if isFZF==1
     map  <C-P> :FZF<CR>
     nmap <C-B> :Buffer<CR>
     nmap <C-H> :History:<CR>
-    nmap <C-T> :Tags<CR>
+    nmap <C-L> :Lines<CR>
     nmap <C-F> :FZFMru<CR>
-    " Mapping selecting mappings
-    nmap <leader><tab> <plug>(fzf-maps-n)
-    xmap <leader><tab> <plug>(fzf-maps-x)
-    omap <leader><tab> <plug>(fzf-maps-o)
+    nmap <C-T> :Tags <C-R>=expand("<cword>")<CR>
+    nmap <C-A> :Ag <C-R>=expand("<cword>")<CR>
+    nmap <leader>bl :BLines<CR>
 
-    " Insert mode completion
-    imap <c-x><c-k> <plug>(fzf-complete-word)
-    imap <c-x><c-f> <plug>(fzf-complete-path)
-    imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-    imap <c-x><c-l> <plug>(fzf-complete-line)
-
-    " Advanced customization using autoload functions
-    inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 else
     "Use CtrlP
     Plug 'kien/ctrlp.vim'
