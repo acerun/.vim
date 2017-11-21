@@ -163,7 +163,11 @@ let g:tagbar_type_markdown = {
 \ }
 
 Plug 'vim-scripts/Mark--Karkat'
+
+"vim-signature is a plugin to place, toggle and display marks.
 Plug 'kshenoy/vim-signature'
+Plug 'mbbill/undotree'
+nnoremap <F3> :UndotreeToggle<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => END
