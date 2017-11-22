@@ -122,8 +122,7 @@ endif
 " => YouCompleteMe: a code-completion engine for Vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("win32")
-    Plug 'shougo/neocomplete.vim'
-    source ~/.vim/neocomplete_config.vim
+    Plug 'ervandew/supertab'
 else
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 endif
