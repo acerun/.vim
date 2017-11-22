@@ -13,6 +13,8 @@
 "    -> FZF or CtrlP
 "    -> YouCompleteMe
 "    -> Markdown
+"    -> EasyMotion
+"    -> Others
 "    -> END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -152,10 +154,36 @@ let g:tagbar_type_markdown = {
     \ 'sort': 0,
 \ }
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => EasyMotion
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'easymotion/vim-easymotion'
+
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Others
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"highlight several words in different colors simultaneously
 Plug 'vim-scripts/Mark--Karkat'
 
 "vim-signature is a plugin to place, toggle and display marks.
 Plug 'kshenoy/vim-signature'
+
 Plug 'mbbill/undotree'
 nnoremap <F3> :UndotreeToggle<cr>
 
