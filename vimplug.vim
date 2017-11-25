@@ -62,6 +62,7 @@ if isFZF==1
     "https://github.com/junegunn/fzf-bin/releases
 
     "Need install ag:https://github.com/ggreer/the_silver_searcher
+    "ripgrep may be better:https://github.com/BurntSushi/ripgrep
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'pbogut/fzf-mru.vim'
@@ -74,8 +75,27 @@ if isFZF==1
     " [Tags] Command to generate tags file
     let g:fzf_tags_command = 'ctags -R'
 
-    "let $FZF_DEFAULT_COMMAND  = 'find . -type f ! -path "./node_modules/*" ! -path "./bower_components/*" ! -path "./.git/*" ! -path "*.swp"'
-    let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --nocolor --hidden --ignore=".git" --ignore="*.pyc"'
+    let $FZF_DEFAULT_COMMAND  = 'find . -type f ! -path "./node_modules/*" ! -path "./bower_components/*" ! -path "./.git/*" ! -path "*.swp"'
+    if executable('ag')
+        let $FZF_DEFAULT_COMMAND = 'ag -l -g "" --nocolor --hidden --ignore=".git" --ignore="*.pyc"'
+        "   :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
+        "   :Ag! - Start fzf in fullscreen and display the preview window above
+        command! -bang -nargs=* Ag
+                    \ call fzf#vim#ag(<q-args>,
+                    \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+                    \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+                    \                 <bang>0)
+    endif
+    if executable('rg')
+        let $FZF_DEFAULT_COMMAND = 'rg --column --line-number --no-heading --color=never --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --files'
+        "command! -bang -nargs=* Rg
+        command! -bang -nargs=* Ag
+                    \ call fzf#vim#grep(
+                    \   'rg --column --line-number --no-heading --color=always --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" '.shellescape(<q-args>), 1,
+                    \   <bang>0 ? fzf#vim#with_preview('up:60%')
+                    \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+                    \   <bang>0)
+    endif
     let $FZF_FIND_FILE_COMMAND = "$FZF_DEFAULT_COMMAND"
 
     map  <C-P> :FZF<CR>
@@ -171,8 +191,8 @@ map <Leader>L <Plug>(easymotion-bd-jk)
 nmap <Leader>L <Plug>(easymotion-overwin-line)
 
 " Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+map  <Leader>W <Plug>(easymotion-bd-w)
+nmap <Leader>W <Plug>(easymotion-overwin-w)
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
