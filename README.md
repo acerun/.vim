@@ -1,7 +1,7 @@
 # vim-configuration
 
 ## Install
-    git clone git@github.com:futureinsky/.vim.git ~
+    git clone git@github.com:futureinsky/.vim.git ~/.vim
 * VIM:   ln -s ~/.vim/.vimrc ~/.vimrc
 * NeoVim: ln -s ~/.vim/.vimrc ~/.nvim/init.vim
 
