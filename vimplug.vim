@@ -14,6 +14,7 @@
 "    -> YouCompleteMe
 "    -> Markdown
 "    -> EasyMotion
+"    -> Vim-go
 "    -> Others
 "    -> END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -194,6 +195,14 @@ nmap <Leader>L <Plug>(easymotion-overwin-line)
 map  <Leader>W <Plug>(easymotion-bd-w)
 nmap <Leader>W <Plug>(easymotion-overwin-w)
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim-go
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'fatih/vim-go'
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+let g:go_list_type = "quickfix"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Others

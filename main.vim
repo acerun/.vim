@@ -237,6 +237,11 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+"===> quickfix
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+
 "===> tabs
 map <leader>tn :tabedit<cr>
 map <leader>tc :tabclose<cr>
