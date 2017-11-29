@@ -101,8 +101,7 @@ if isFZF==1
 
     map  <C-P> :FZF<CR>
     nmap <C-B> :Buffer<CR>
-    nmap <C-H> :History:<CR>
-    nmap <C-L> :Lines<CR>
+    nmap <leader>h :History:<CR>
     nmap <C-F> :FZFMru<CR>
     nmap <C-T> :Tags <C-R>=expand("<cword>")<CR>
     nmap <C-A> :Ag <C-R>=expand("<cword>")<CR>
@@ -148,6 +147,8 @@ if has("win32")
     Plug 'ervandew/supertab'
 else
     Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+    "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+    "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 endif
 
 
@@ -185,11 +186,11 @@ map  <Leader>f <Plug>(easymotion-bd-f)
 nmap <Leader>f <Plug>(easymotion-overwin-f)
 
 " s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
+"nmap s <Plug>(easymotion-overwin-f2)
 
 " Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+"map <Leader>L <Plug>(easymotion-bd-jk)
+"nmap <Leader>L <Plug>(easymotion-overwin-line)
 
 " Move to word
 map  <Leader>W <Plug>(easymotion-bd-w)
@@ -203,6 +204,25 @@ Plug 'fatih/vim-go'
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 let g:go_list_type = "quickfix"
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Ultisnips
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Track the engine.
+Plug 'SirVer/ultisnips'
+
+" Snippets are separated from the engine. Add this if you want them:
+Plug 'honza/vim-snippets'
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger = "<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger = "<leader>j"
+let g:UltiSnipsJumpBackwardTrigger = "<leader>k"
+let g:UltiSnipsListSnippets="<c-e>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Others

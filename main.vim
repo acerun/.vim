@@ -14,8 +14,9 @@
 "    -> Fold method
 "    -> Status line
 "    -> Editing mappings
-"       -> Moving windows, tabs and buffers
+"       -> Moving Lines, windows, quickfix, tabs and buffers
 "       -> Command mode related
+"       -> Go to next/previous indentation level
 "       -> Spell checking
 "       -> Parenthesis/bracket
 "       -> Misc
@@ -44,7 +45,11 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 "Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-
+" Disable CTRL-A on tmux or on screen
+if $TERM =~ 'screen'
+  nnoremap <C-a> <nop>
+  nnoremap <Leader><C-a> <C-a>
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -218,29 +223,51 @@ set statusline+=\ \                               "leave 2 space
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "With a map leader it's possible to do extra key combinations
-"like <leader>w saves the current file
 let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
+" jk | Escaping!
+inoremap jk <Esc>
+xnoremap jk <Esc>
+cnoremap jk <C-c>
+
+" Movement in insert mode
+inoremap <C-h> <C-o>h
+inoremap <C-l> <C-o>a
+inoremap <C-j> <C-o>j
+inoremap <C-k> <C-o>k
+inoremap <C-^> <C-o><C-^>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ==> Moving windows, tabs and buffers
+" ==> Moving Lines, windows, quickfix, tabs and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===> Lines
+nnoremap <silent> <C-k> :move-2<cr>
+nnoremap <silent> <C-j> :move+<cr>
+nnoremap <silent> <C-h> <<
+nnoremap <silent> <C-l> >>
+xnoremap <silent> <C-k> :move-2<cr>gv
+xnoremap <silent> <C-j> :move'>+<cr>gv
+xnoremap <silent> <C-h> <gv
+xnoremap <silent> <C-l> >gv
+xnoremap < <gv
+xnoremap > >gv
+
 "===> windows
 "Zoom / Restore window
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <Leader>z :ZoomToggle<CR>
 
 "Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+"map <C-j> <C-W>j
+"map <C-k> <C-W>k
+"map <C-h> <C-W>h
+"map <C-l> <C-W>l
 
 "===> quickfix
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
-nnoremap <leader>a :cclose<CR>
+nnoremap <leader>c :cclose<bar>lclose<cr>
 
 "===> tabs
 map <leader>tn :tabedit<cr>
@@ -277,6 +304,13 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ===> Go to next/previous indentation level
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"#gi / #gpi | go to next/previous indentation level
+nnoremap <silent> gi :<c-u>call <SID>go_indent(v:count1, 1)<cr>
+nnoremap <silent> gpi :<c-u>call <SID>go_indent(v:count1, -1)<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ==> Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
@@ -308,14 +342,25 @@ inoremap $e ""<esc>i
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ==> Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Make Y behave like other capitals
+nnoremap Y y$
+
+"Last inserted text
+nnoremap g. :normal! `[v`]<cr><left>
+
 "change CWD with path of current file
 nnoremap <silent> <leader>. :cd %:p:h<CR>
 
 "Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
 
+"<leader>bs | buf-search
+nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
+
 "Fast saving
-nmap <leader>w :w!<cr>
+inoremap <C-w>     <C-o>:update<cr>
+nnoremap <C-w>     :update<cr>
+nnoremap <leader>w :update<cr>
 
 ":W sudo saves the file
 "(useful for handling the permission-denied error)
@@ -410,4 +455,70 @@ function! s:ZoomToggle() abort
         vertical resize
         let t:zoomed = 1
     endif
+endfunction
+
+" ----------------------------------------------------------------------------
+" ?ii / ?ai | indent-object
+" ?io       | strictly-indent-object
+" ----------------------------------------------------------------------------
+xnoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line("'<"), line("'>"), 0, 0)<cr>
+onoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.'), 0, 0)<cr>
+xnoremap <silent> ai :<c-u>call <SID>indent_object('>=', 1, line("'<"), line("'>"), -1, 1)<cr>
+onoremap <silent> ai :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.'), -1, 1)<cr>
+xnoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line("'<"), line("'>"), 0, 0)<cr>
+onoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line('.'), line('.'), 0, 0)<cr>
+
+function! s:indent_len(str)
+  return type(a:str) == 1 ? len(matchstr(a:str, '^\s*')) : 0
+endfunction
+
+function! s:indent_object(op, skip_blank, b, e, bd, ed)
+  let i = min([s:indent_len(getline(a:b)), s:indent_len(getline(a:e))])
+  let x = line('$')
+  let d = [a:b, a:e]
+
+  if i == 0 && empty(getline(a:b)) && empty(getline(a:e))
+    let [b, e] = [a:b, a:e]
+    while b > 0 && e <= line('$')
+      let b -= 1
+      let e += 1
+      let i = min(filter(map([b, e], 's:indent_len(getline(v:val))'), 'v:val != 0'))
+      if i > 0
+        break
+      endif
+    endwhile
+  endif
+
+  for triple in [[0, 'd[o] > 1', -1], [1, 'd[o] < x', +1]]
+    let [o, ev, df] = triple
+
+    while eval(ev)
+      let line = getline(d[o] + df)
+      let idt = s:indent_len(line)
+
+      if eval('idt '.a:op.' i') && (a:skip_blank || !empty(line)) || (a:skip_blank && empty(line))
+        let d[o] += df
+      else | break | end
+    endwhile
+  endfor
+  execute printf('normal! %dGV%dG', max([1, d[0] + a:bd]), min([x, d[1] + a:ed]))
+endfunction
+
+function! s:go_indent(times, dir)
+  for _ in range(a:times)
+    let l = line('.')
+    let x = line('$')
+    let i = s:indent_len(getline(l))
+    let e = empty(getline(l))
+
+    while l >= 1 && l <= x
+      let line = getline(l + a:dir)
+      let l += a:dir
+      if s:indent_len(line) != i || empty(line) != e
+        break
+      endif
+    endwhile
+    let l = min([max([1, l]), x])
+    execute 'normal! '. l .'G^'
+  endfor
 endfunction
