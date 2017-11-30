@@ -262,6 +262,8 @@ Plug 'kshenoy/vim-signature'
 Plug 'mbbill/undotree'
 nnoremap <F3> :UndotreeToggle<cr>
 
+Plug 'will133/vim-dirdiff'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -205,19 +205,19 @@ nmap <leader>l :set list!<CR>
 set laststatus=2 "Always show the status line
 set ruler "Always show current position
 "Format the status line
-set statusline=
-set statusline+=\ [%n]
-set statusline+=\ %{HasPaste()}%F%m%r%h\ %w
-set statusline+=\ \ CWD:\ %r%{getcwd()}%h
-set statusline+=\ \ \ Line:\ %l\/%L\ (%03p%%)
-set statusline+=\ \ Column:\ %c
-set statusline+=%=                                "right align
-set statusline+=%{''.(&fenc!=''?&fenc:&enc).''}   "encoding
-set statusline+=\ %{(&bomb?\",BOM\":\"\")}
-set statusline+=\ %{&ff}                          "file format
-set statusline+=%y                                "file type
-set statusline+=\ \                               "leave 2 space
+function! s:statusline_expr()
+  let mod = "%{&modified ? '[+] ' : !&modifiable ? '[x] ' : ''}"
+  let ro  = "%{&readonly ? '[RO] ' : ''}"
+  let ft  = "%{len(&filetype) ? '['.&filetype.'] ' : ''}"
+  let fug = "%{exists('g:loaded_fugitive') ? fugitive#statusline() : ''}"
+  let cwd = "  CWD:%r%{getcwd()}%h"
+  let sep = ' %= '
+  let pos = ' %-12(%l/%L : %c%V%) '
+  let pct = ' %P '
 
+  return ' [%n] %F %<'.mod.ro.ft.fug.cwd.sep.pos.'%*'.pct
+endfunction
+let &statusline = s:statusline_expr()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
