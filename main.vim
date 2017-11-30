@@ -180,7 +180,7 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 
-set smarttab
+"set smarttab
 set expandtab "Use the spaces to instead of tabs
 set autoindent "Copy indent from current line when starting a new line
 set smartindent
@@ -358,9 +358,18 @@ map <silent> <leader><cr> :noh<cr>
 nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
 
 "Fast saving
-inoremap <C-w>     <C-o>:update<cr>
-nnoremap <C-w>     :update<cr>
-nnoremap <leader>w :update<cr>
+" If the current buffer has never been saved, it will have no name,
+" call the file browser to save it, otherwise just save it.
+command -nargs=0 -bar Update if &modified
+                           \|    if empty(bufname('%'))
+                           \|        browse confirm write
+                           \|    else
+                           \|        confirm write
+                           \|    endif
+                           \|endif
+inoremap <C-s>     <C-o>:Update<cr>
+nnoremap <C-s>     :Update<cr>
+nnoremap <leader>w :Update<cr>
 
 ":W sudo saves the file
 "(useful for handling the permission-denied error)
