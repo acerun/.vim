@@ -228,8 +228,8 @@ let g:mapleader = "\<Space>"
 
 " jk | Escaping!
 inoremap jk <Esc>
-xnoremap jk <Esc>
-cnoremap jk <C-c>
+"xnoremap jk <Esc>
+"cnoremap jk <C-c>
 
 " Movement in insert mode
 inoremap <C-h> <C-o>h
