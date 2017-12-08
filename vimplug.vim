@@ -118,7 +118,7 @@ if isFZF==1
         "command! -bang -nargs=* Rg
         command! -bang -nargs=* Ag
                     \ call fzf#vim#grep(
-                    \   'rg --column --line-number --no-heading --color=always --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" '.shellescape(<q-args>), 1,
+                    \   'rg --column --line-number --no-heading --color=always --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" -g "!tags" '.shellescape(<q-args>), 1,
                     \   <bang>0 ? fzf#vim#with_preview('up:60%')
                     \           : fzf#vim#with_preview('right:50%:hidden', '?'),
                     \   <bang>0)
