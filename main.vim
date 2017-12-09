@@ -14,11 +14,13 @@
 "    -> Fold method
 "    -> Status line
 "    -> Editing mappings
-"       -> Moving Lines, windows, quickfix, tabs and buffers
+"       -> Moving Lines
+"       -> Related windows, quickfix, tabs and buffers
 "       -> Command mode related
 "       -> Go to next/previous indentation level
 "       -> Spell checking
 "       -> Parenthesis/bracket
+"       -> Map auto complete of (, ", ', [
 "       -> Misc
 "    -> Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -232,16 +234,15 @@ let g:mapleader = "\<Space>"
 "cnoremap jk <C-c>
 
 " Movement in insert mode
-inoremap <C-h> <C-o>h
-inoremap <C-l> <C-o>a
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-inoremap <C-^> <C-o><C-^>
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+inoremap <C-^> <C-o><C-^> "recent file switch
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ==> Moving Lines, windows, quickfix, tabs and buffers
+" ==> Moving Lines
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"===> Lines
 nnoremap <silent> <C-k> :move-2<cr>
 nnoremap <silent> <C-j> :move+<cr>
 nnoremap <silent> <C-h> <<
@@ -253,6 +254,9 @@ xnoremap <silent> <C-l> >gv
 xnoremap < <gv
 xnoremap > >gv
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> Related windows, quickfix, tabs and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "===> windows
 "Zoom / Restore window
 command! ZoomToggle call s:ZoomToggle()
@@ -331,13 +335,14 @@ vnoremap { <esc>`>i}<esc>`<i{<esc>
 vnoremap " <esc>`>i"<esc>`<i"<esc>
 vnoremap ' <esc>`>i'<esc>`<i'<esc>
 
-" Map auto complete of (, ", ', [
-inoremap $1 ()<esc>i
-inoremap $2 []<esc>i
-inoremap $3 {}<esc>i
-inoremap $4 {<esc>o}<esc>O
-inoremap $q ''<esc>i
-inoremap $e ""<esc>i
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ==> Map auto complete of (, ", ', [
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+inoremap @( ()<esc>i
+inoremap @[ []<esc>i
+inoremap @{ {<esc>o}<esc>O
+inoremap @' ''<esc>i
+inoremap @" ""<esc>i
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ==> Misc
