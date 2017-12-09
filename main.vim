@@ -227,7 +227,7 @@ let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
 " jk | Escaping!
-inoremap jk <Esc>
+"inoremap jk <Esc>
 "xnoremap jk <Esc>
 "cnoremap jk <C-c>
 
