@@ -332,7 +332,7 @@ map <leader>s? z=
 vnoremap ( <esc>`>i)<esc>`<i(<esc>
 vnoremap [ <esc>`>i]<esc>`<i[<esc>
 vnoremap { <esc>`>i}<esc>`<i{<esc>
-vnoremap " <esc>`>i"<esc>`<i"<esc>
+vnoremap @" <esc>`>i"<esc>`<i"<esc>
 vnoremap ' <esc>`>i'<esc>`<i'<esc>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
