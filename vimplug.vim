@@ -169,6 +169,7 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => YouCompleteMe: a code-completion engine for Vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"In Linux, pre-install: cmake, g++, python-dev
 if has("win32")
     Plug 'ervandew/supertab'
 else
