@@ -130,7 +130,7 @@ if isFZF==1
     nmap <leader>h :History:<CR>
     nmap <C-F> :FZFMru<CR>
     nmap <C-T> :Tags <C-R>=expand("<cword>")<CR>
-    nmap <C-A> :Ag <C-R>=expand("<cword>")<CR>
+    nmap <C-g> :Ag <C-R>=expand("<cword>")<CR>
     nmap <leader>bl :BLines<CR>
 
 else
