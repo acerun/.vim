@@ -348,6 +348,10 @@ inoremap @" ""<esc>i
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ==> Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"vimgrep
+vnoremap ge "gy:vimgrep /<C-R>g/ % \|copen<cr>
+nnoremap ge :vimgrep // % \|copen<left><left><left><left><left><left><left><left><left><left>
+
 "Make Y behave like other capitals
 nnoremap Y y$
 
