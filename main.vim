@@ -269,8 +269,8 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
 "map <C-l> <C-W>l
 
 "===> quickfix
-nnoremap <C-n> :cprevious<CR>
-nnoremap <C-m> :cnext<CR>
+nnoremap <C-p> :cprevious<CR>
+nnoremap <C-n> :cnext<CR>
 nnoremap <leader>c :cclose<bar>lclose<cr>
 nnoremap <leader>o :copen<cr>
 
@@ -352,6 +352,7 @@ inoremap @" ""<esc>i
 vnoremap ge "gy:vimgrep /<C-R>g/ % \|copen<cr>
 nnoremap ge :vimgrep // % \|copen<left><left><left><left><left><left><left><left><left><left>
 
+"Copy file path
 "Make Y behave like other capitals
 nnoremap Y y$
 

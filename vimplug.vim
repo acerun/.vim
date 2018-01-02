@@ -126,10 +126,10 @@ if isFZF==1
     endif
     let $FZF_FIND_FILE_COMMAND = "$FZF_DEFAULT_COMMAND"
 
-    map  <C-P> :FZF<CR>
+    map  <C-F> :FZF<CR>
     nmap <C-B> :Buffer<CR>
     nmap <leader>h :History:<CR>
-    nmap <C-F> :FZFMru<CR>
+    nmap <leader>u :FZFMru<CR>
     nmap <C-T> :Tags <C-R>=expand("<cword>")<CR>
     nmap <C-g> :Ag <C-R>=expand("<cword>")<CR>
     nmap <leader>bl :BLines<CR>
@@ -271,3 +271,4 @@ Plug 'scrooloose/nerdcommenter'
 " => END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#end()
+source ~/.vim/plugin/keymap.vim
