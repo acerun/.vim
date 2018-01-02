@@ -4,6 +4,7 @@
 "
 "Info:
 "For VIM plugins
+"Some plugins are in plugin directory
 "
 "Sections:
 "    -> DL vim-plug if necessary
