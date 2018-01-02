@@ -269,9 +269,10 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
 "map <C-l> <C-W>l
 
 "===> quickfix
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
+nnoremap <C-n> :cprevious<CR>
+nnoremap <C-m> :cnext<CR>
 nnoremap <leader>c :cclose<bar>lclose<cr>
+nnoremap <leader>o :copen<cr>
 
 "===> tabs
 map <leader>tn :tabedit<cr>
