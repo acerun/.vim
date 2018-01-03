@@ -267,6 +267,8 @@ nnoremap <F3> :UndotreeToggle<cr>
 Plug 'will133/vim-dirdiff'
 
 Plug 'scrooloose/nerdcommenter'
+
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
