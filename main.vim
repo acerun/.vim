@@ -134,6 +134,7 @@ if has("gui_running")
     else
         set guifont=DejaVu\ Sans\ Mono\ 10
     endif
+    set background=light
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -182,7 +183,7 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 
-"set smarttab
+set smarttab
 set expandtab "Use the spaces to instead of tabs
 set autoindent "Copy indent from current line when starting a new line
 set smartindent
