@@ -391,11 +391,11 @@ command W w !sudo tee % > /dev/null
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>rm mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
-" Quickly open a buffer for scribble
-map <leader>q :e ~/buffer<cr>
+" Quit all
+map <leader>q :qa!<cr>
 
 " Quickly open a markdown buffer for scribble
-map <leader>x :e ~/buffer.md<cr>
+map <leader>x :e ~/.vimnote.md<cr>
 
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
